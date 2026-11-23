@@ -9,8 +9,12 @@ manual browser checks (file:// and local server, 390x844 + 1440x900) + ffprobe a
 
 - S1 (L1): "create in nuevo directorio que se llama bugs bunny en el cual haremos un mensaje de
   feliz cumpleaños para una amiga que se llama Paola" — landing lives in the `bugs bunny` folder.
-- S2 (L1): "que salga un bugs bunny súper grande y le cante feliz cumpleaños" + "si puedes saca
-  la voz de bugs bunny en Español latino" — giant Bugs sings; default voice is synthesized
+- S2 (L1, L7): "que salga un bugs bunny súper grande y le cante feliz cumpleaños" + "si puedes saca
+  la voz de bugs bunny en Español latino" + "ok hay un conejo como diseño que sea parecido a este
+  porfavor, arreglalo" — giant Bugs matching classic Looney Tunes line-art design (tall pointed V
+  ears with peach-pink inner canal, 3-spike crown tuft, tall oval eyes with curved brow ridges,
+  flared tufted white cheek ruff, salmon triangular nose with bridge wrinkles, long sweeping black
+  whiskers, and buck-toothed open grin with coral tongue) sings; default voice is synthesized
   Mexican-Spanish in Bugs style. Official Warner audio cannot be extracted by the agent.
 - S3 (L1): "le gustan los doramas tvxq [...] ponle algo de ese dorama" — dorama-style scene with
   Korean/Spanish subtitles, Cassiopeia references, parody titles.
@@ -31,7 +35,7 @@ manual browser checks (file:// and local server, 390x844 + 1440x900) + ffprobe a
 |----|------|-------|--------|----------|
 | T0 | S1 | inline | done | repo + folders + this doc, commit `chore: scaffold` |
 | T1 | S2,S7 | inline | done | assets/audio/*.mp3 + envelopes.js (talk 11.05s, song 18.5s, theme 26.65s), samples/, commit `feat: audio pipeline` |
-| T2 | S2 | inline | done | inline SVG in index.html + scripts/bugs.js; teeth-rest + whiskers after visual pass |
+| T2 | S2 | inline | done | classic Looney Tunes Bugs SVG in index.html + scripts/bugs.js + styles; verified s1/s2 in headless Edge |
 | T3 | S2,S4 | inline | done | s1/s2 scenes, confetti, ocean; mouth-sync verified mid-song (opacity/scale updates) |
 | T4 | S3 | inline | done | dorama cards with emoji art (umbrella/lock/snow + 🐰), ko/es captions, theme loop |
 | T5 | S4,S5 | inline | done | 5 candles tap-extinguish verified; mic+fallback; envelope opens with signature |
@@ -73,3 +77,10 @@ manual browser checks (file:// and local server, 390x844 + 1440x900) + ffprobe a
 - Analysis notes: es-MX-CecilioNeural returned empty audio (service-side), default voice is
   es-MX-JorgeNeural pitched +20%; parallel TTS gets rate-limited → sequential with retry.
   Headless virtual time freezes CSS transitions/animations → harness jumps them to end state.
+- L7 (2026-11-23, verbatim): "ok hay un conejo como diseño que sea parecido a este porfavor,
+  arreglalo" (with classic Looney Tunes Bugs Bunny reference image) → redrew `#bugs` inline SVG
+  in `index.html` and updated `scripts/bugs.js` + `styles/` + `dist/` to match the classic Looney
+  Tunes design (bold black ink outlines, tall V-ears with peach inner canal and base pivot, 3-spike
+  hair tuft, brow creases, tall oval eyes, tufted white cheek ruff, triangular salmon nose with
+  bridge wrinkles, long sweeping whiskers, buck teeth and coral tongue); moved s2 lyrics to top so
+  Bugs's singing face is never covered; verified s1 & s2 at 390x844 in headless Edge.

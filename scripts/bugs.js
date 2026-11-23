@@ -14,8 +14,8 @@
   var carrotArm = document.getElementById("carrot-arm");
 
   /* place ears/arms: transform-attribute driven (file:// safe, no CSS vars) */
-  earL.setAttribute("transform", "translate(318,208) rotate(-14)");
-  earR.setAttribute("transform", "translate(582,208) rotate(14)");
+  earL.setAttribute("transform", "translate(410,362) rotate(-12)");
+  earR.setAttribute("transform", "translate(490,364) rotate(16)");
 
   var state = { mouth: 0, blink: 0, bite: 0, look: { x: 0, y: 0 }, sway: 0 };
   var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -23,12 +23,13 @@
   function setMouth(o) {
     state.mouth = Math.max(0, Math.min(1, o));
     var open = state.mouth;
-    mouthOpen.setAttribute("opacity", open > 0.1 ? "1" : "0");
-    mouthOpen.setAttribute("transform", "scale(1," + (0.25 + 0.75 * open).toFixed(3) + ")");
-    var closed = open > 0.1 ? "0" : "1";
+    var sy = open === 0 ? 0.94 : (0.28 + 0.80 * open);
+    var closed = (open > 0 && open <= 0.08) ? "1" : "0";
+    mouthOpen.setAttribute("opacity", closed === "1" ? "0" : "1");
+    mouthOpen.setAttribute("transform", "scale(1," + sy.toFixed(3) + ")");
     mouthSmile.setAttribute("opacity", closed);
     teethRest.setAttribute("opacity", closed);
-    var ty = -64 + open * 8;
+    var ty = open === 0 ? 0 : (-2 + open * 4);
     teeth.setAttribute("transform", "translate(0," + ty.toFixed(1) + ")");
   }
 
@@ -50,9 +51,9 @@
   function bite() { // carrot to mouth + chew
     state.bite = 1;
     carrotArm.style.transition = "transform 160ms cubic-bezier(.6,-0.3,.7,1.6)";
-    carrotArm.style.transformOrigin = "700px 600px";
+    carrotArm.style.transformOrigin = "718px 662px";
     carrotArm.style.transformBox = "view-box";
-    carrotArm.style.transform = "rotate(30deg)";
+    carrotArm.style.transform = "rotate(-26deg)";
     setTimeout(function () {
       carrotArm.style.transition = "transform 420ms ease";
       carrotArm.style.transform = "rotate(0deg)";

@@ -12,119 +12,184 @@
 <body>
 
 <!-- Bugs lives outside the scenes so he persists between s1 and s2 -->
-<svg id="bugs" viewBox="0 0 900 1150" aria-label="Bugs Bunny" role="img">
+<svg id="bugs" viewBox="55 -10 790 1160" aria-label="Bugs Bunny" role="img">
   <defs>
-    <radialGradient id="furGrad" cx="42%" cy="36%" r="75%">
-      <stop offset="0%" stop-color="#aab1ba"/>
-      <stop offset="62%" stop-color="#9aa0a8"/>
-      <stop offset="100%" stop-color="#7d838c"/>
+    <radialGradient id="furGrad" cx="45%" cy="32%" r="72%">
+      <stop offset="0%" stop-color="#a8aeb5"/>
+      <stop offset="65%" stop-color="#9aa0a7"/>
+      <stop offset="100%" stop-color="#858b93"/>
     </radialGradient>
-    <radialGradient id="innerEarGrad" cx="50%" cy="30%" r="80%">
-      <stop offset="0%" stop-color="#f2b7c0"/>
-      <stop offset="100%" stop-color="#d98893"/>
-    </radialGradient>
+    <linearGradient id="innerEarGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f7c8b2"/>
+      <stop offset="100%" stop-color="#eeb59c"/>
+    </linearGradient>
     <linearGradient id="carrotGrad" x1="0" y1="0" x2="1" y2="0">
       <stop offset="0%" stop-color="#f6924b"/>
       <stop offset="55%" stop-color="#f2803b"/>
       <stop offset="100%" stop-color="#d96a28"/>
     </linearGradient>
-    <radialGradient id="noseGrad" cx="35%" cy="30%" r="80%">
-      <stop offset="0%" stop-color="#c9899a"/>
-      <stop offset="100%" stop-color="#a96b7d"/>
+    <radialGradient id="noseGrad" cx="38%" cy="30%" r="78%">
+      <stop offset="0%" stop-color="#f7aba0"/>
+      <stop offset="100%" stop-color="#e5887b"/>
     </radialGradient>
+    <clipPath id="mouthClip">
+      <path d="M -96 -6 C -64 2, -32 6, 0 2 C 32 6, 64 2, 96 -6 C 76 58, 48 138, 0 138 C -48 138, -76 58, -96 -6 Z"/>
+    </clipPath>
   </defs>
 
   <g id="bugs-root">
-    <!-- ears -->
-    <g id="ear-left" class="ear">
-      <g class="ear-inner">
-        <ellipse cx="0" cy="-40" rx="64" ry="205" fill="url(#furGrad)"/>
-        <ellipse cx="0" cy="-30" rx="37" ry="152" fill="url(#innerEarGrad)"/>
-      </g>
-    </g>
-    <g id="ear-right" class="ear">
-      <g class="ear-inner">
-        <ellipse cx="0" cy="-40" rx="64" ry="205" fill="url(#furGrad)"/>
-        <ellipse cx="0" cy="-30" rx="37" ry="152" fill="url(#innerEarGrad)"/>
-      </g>
-    </g>
-
     <!-- body -->
-    <path d="M450 660 C 300 660 205 760 185 940 L 185 1150 L 715 1150 L 715 940 C 695 760 600 660 450 660 Z" fill="url(#furGrad)"/>
-    <ellipse cx="450" cy="880" rx="152" ry="150" fill="#f7f7f2"/>
+    <path d="M 372 726 C 282 752, 222 842, 200 968 L 190 1150 L 710 1150 L 700 968 C 678 842, 618 752, 528 726 Z"
+          fill="url(#furGrad)" stroke="#111111" stroke-width="6" stroke-linejoin="round"/>
+    <path d="M 386 744 C 320 788, 300 918, 318 1058 C 338 1124, 562 1124, 582 1058 C 600 918, 580 788, 514 744 Z"
+          fill="#ffffff" stroke="#111111" stroke-width="5.5" stroke-linejoin="round"/>
+
     <!-- left arm resting -->
-    <path d="M262 780 C 205 830 178 900 185 975 C 230 985 268 950 278 900 C 286 860 280 812 262 780 Z" fill="#8b919a"/>
-    <ellipse cx="228" cy="962" rx="46" ry="44" fill="#f7f7f2"/>
-    <path d="M196 946 h64 M198 966 h60" stroke="#c9cdd3" stroke-width="4"/>
+    <path d="M 264 786 C 204 836, 180 906, 188 978 C 232 988, 268 954, 280 904 C 288 862, 282 818, 264 786 Z"
+          fill="#90969e" stroke="#111111" stroke-width="6" stroke-linejoin="round"/>
+    <ellipse cx="228" cy="938" rx="38" ry="15" transform="rotate(-10 228 938)" fill="#ffffff" stroke="#111111" stroke-width="5.5"/>
+    <ellipse cx="230" cy="972" rx="48" ry="44" fill="#ffffff" stroke="#111111" stroke-width="5.5"/>
+    <path d="M 202 958 h54 M 204 976 h50" stroke="#111111" stroke-width="4" stroke-linecap="round"/>
 
     <!-- right arm raised with carrot -->
     <g id="carrot-arm">
-      <path d="M612 748 C 672 720 700 668 705 618 C 740 636 752 686 736 736 C 720 786 668 800 612 748 Z" fill="#8b919a"/>
-      <g id="carrot" transform="translate(700,545) rotate(22)">
-        <path d="M-16 -86 C 6 -96 30 -88 34 -70 L 12 96 C 8 118 -14 118 -20 96 L -40 -66 C -44 -86 -30 -92 -16 -86 Z" fill="url(#carrotGrad)"/>
-        <path d="M-30 -50 h52 M-24 -8 h42 M-19 34 h32" stroke="#c85a1f" stroke-width="5" stroke-linecap="round" opacity=".55"/>
-        <path d="M-6 -88 C -26 -122 -8 -138 4 -128 C 10 -144 34 -140 34 -120 C 48 -118 46 -96 30 -90 Z" fill="#3f9d4e"/>
-        <path d="M8 -92 C 2 -108 12 -118 22 -112" stroke="#2f7d3b" stroke-width="4" fill="none"/>
+      <path d="M 604 792 C 664 772, 706 728, 720 672 C 754 684, 764 734, 740 782 C 714 830, 656 840, 604 792 Z"
+            fill="#90969e" stroke="#111111" stroke-width="6" stroke-linejoin="round"/>
+      <g id="carrot" transform="translate(730,596) rotate(18)">
+        <path d="M -6 -88 C -26 -122, -8 -138, 4 -128 C 10 -144, 34 -140, 34 -120 C 48 -118, 46 -96, 30 -90 Z"
+              fill="#3f9d4e" stroke="#111111" stroke-width="5" stroke-linejoin="round"/>
+        <path d="M 8 -92 C 2 -108, 12 -118, 22 -112" stroke="#1d5b27" stroke-width="4" fill="none" stroke-linecap="round"/>
+        <path d="M -16 -86 C 6 -96, 30 -88, 34 -70 L 12 96 C 8 118, -14 118, -20 96 L -40 -66 C -44 -86, -30 -92, -16 -86 Z"
+              fill="url(#carrotGrad)" stroke="#111111" stroke-width="5.5" stroke-linejoin="round"/>
+        <path d="M -28 -50 h48 M -22 -8 h38 M -17 34 h28" stroke="#8a380d" stroke-width="4.5" stroke-linecap="round"/>
       </g>
-      <ellipse cx="700" cy="600" rx="48" ry="46" fill="#f7f7f2"/>
-      <path d="M662 588 h76 M664 610 h72" stroke="#c9cdd3" stroke-width="4"/>
+      <ellipse cx="726" cy="696" rx="35" ry="14" transform="rotate(16 726 696)" fill="#ffffff" stroke="#111111" stroke-width="5.5"/>
+      <ellipse cx="718" cy="662" rx="46" ry="42" fill="#ffffff" stroke="#111111" stroke-width="5.5"/>
+      <path d="M 686 650 h64 M 688 670 h60" stroke="#111111" stroke-width="4" stroke-linecap="round"/>
     </g>
 
-    <!-- head -->
-    <ellipse cx="450" cy="470" rx="252" ry="228" fill="url(#furGrad)"/>
-    <circle cx="286" cy="556" r="98" fill="#9aa0a8"/>
-    <circle cx="614" cy="556" r="98" fill="#9aa0a8"/>
+    <!-- ears (pivoted at skull base) -->
+    <g id="ear-left" class="ear" transform="translate(410,362) rotate(-12)">
+      <g class="ear-inner">
+        <path d="M -26 24 C -50 -56, -66 -172, -44 -282 C -34 -328, -18 -358, -8 -362 C 4 -360, 20 -314, 30 -250 C 44 -154, 36 -52, 26 24 Z"
+              fill="url(#furGrad)" stroke="#111111" stroke-width="6" stroke-linejoin="round"/>
+        <path d="M -4 8 C -30 -56, -48 -162, -32 -256 C -26 -288, -16 -308, -9 -308 C -2 -306, 6 -276, 10 -232 C 16 -148, 10 -52, -4 8 Z"
+              fill="url(#innerEarGrad)" stroke="#111111" stroke-width="5" stroke-linejoin="round"/>
+      </g>
+    </g>
+    <g id="ear-right" class="ear" transform="translate(490,364) rotate(16)">
+      <g class="ear-inner">
+        <path d="M 26 24 C 50 -56, 66 -172, 44 -282 C 34 -328, 18 -358, 8 -362 C -4 -360, -20 -314, -30 -250 C -44 -154, -36 -52, -26 24 Z"
+              fill="url(#furGrad)" stroke="#111111" stroke-width="6" stroke-linejoin="round"/>
+        <path d="M 4 8 C 30 -56, 48 -162, 32 -256 C 26 -288, 16 -308, 9 -308 C 2 -306, -6 -276, -10 -232 C -16 -148, -10 -52, 4 8 Z"
+              fill="url(#innerEarGrad)" stroke="#111111" stroke-width="5" stroke-linejoin="round"/>
+      </g>
+    </g>
 
-    <!-- muzzle & chin -->
-    <ellipse cx="450" cy="588" rx="176" ry="140" fill="#f7f7f2"/>
-    <ellipse cx="450" cy="702" rx="92" ry="54" fill="#f7f7f2"/>
+    <!-- grey cranium, 3-spike hair tuft & cheek slopes -->
+    <path d="M 254 554
+             C 286 520, 316 488, 330 452
+             C 334 396, 356 360, 390 354
+             C 406 350, 418 342, 428 332
+             C 434 308, 452 290, 472 284
+             C 464 300, 458 314, 458 322
+             C 476 306, 500 300, 520 302
+             C 506 314, 494 324, 486 332
+             C 502 324, 518 324, 530 330
+             C 516 340, 504 348, 494 354
+             C 544 358, 566 394, 570 452
+             C 584 488, 614 520, 646 554
+             L 580 615 L 320 615 Z"
+          fill="url(#furGrad)" stroke="#111111" stroke-width="6" stroke-linejoin="round"/>
+
+    <!-- brow ridge creases -->
+    <path d="M 346 472 C 340 404, 368 364, 402 368 C 418 370, 428 382, 434 398"
+          fill="none" stroke="#111111" stroke-width="6" stroke-linecap="round"/>
+    <path d="M 554 472 C 560 404, 532 364, 498 368 C 482 370, 472 382, 466 398"
+          fill="none" stroke="#111111" stroke-width="6" stroke-linecap="round"/>
 
     <!-- eyes -->
     <g id="eyes">
-      <ellipse cx="385" cy="424" rx="60" ry="77" fill="#fbfbf7"/>
-      <ellipse cx="515" cy="424" rx="60" ry="77" fill="#fbfbf7"/>
+      <path d="M 362 474 C 360 420, 378 386, 402 388 C 424 390, 438 426, 436 482 C 434 518, 420 544, 398 544 C 376 544, 364 516, 362 474 Z"
+            fill="#ffffff" stroke="#111111" stroke-width="6" stroke-linejoin="round"/>
+      <path d="M 538 474 C 540 420, 522 386, 498 388 C 476 390, 462 426, 464 482 C 466 518, 480 544, 502 544 C 524 544, 536 516, 538 474 Z"
+            fill="#ffffff" stroke="#111111" stroke-width="6" stroke-linejoin="round"/>
       <g id="pupils">
-        <circle cx="392" cy="438" r="15" fill="#1c1c22"/>
-        <circle cx="508" cy="438" r="15" fill="#1c1c22"/>
-        <circle cx="398" cy="431" r="4.5" fill="#fff"/>
-        <circle cx="514" cy="431" r="4.5" fill="#fff"/>
+        <ellipse cx="412" cy="496" rx="16" ry="34" fill="#111111"/>
+        <ellipse cx="488" cy="496" rx="16" ry="34" fill="#111111"/>
       </g>
-      <ellipse class="eyelid" cx="385" cy="424" rx="60" ry="77" fill="#9aa0a8"/>
-      <ellipse class="eyelid" cx="515" cy="424" rx="60" ry="77" fill="#9aa0a8"/>
-      <path d="M330 328 Q 385 306 440 326" stroke="#7d838c" stroke-width="11" fill="none" stroke-linecap="round"/>
-      <path d="M460 326 Q 515 306 570 328" stroke="#7d838c" stroke-width="11" fill="none" stroke-linecap="round"/>
+      <ellipse class="eyelid" cx="399" cy="466" rx="38" ry="77" fill="#9aa0a7" stroke="#111111" stroke-width="5"/>
+      <ellipse class="eyelid" cx="501" cy="466" rx="38" ry="77" fill="#9aa0a7" stroke="#111111" stroke-width="5"/>
+    </g>
+
+    <!-- white furry cheeks & lower jaw ruff -->
+    <path d="M 432 542
+             C 394 506, 304 496, 224 538
+             L 204 544 L 226 554
+             L 190 580 L 222 586
+             L 206 614 L 238 614
+             L 246 644 L 266 634
+             C 316 694, 382 758, 450 758
+             C 518 758, 584 694, 634 634
+             L 654 644 L 662 614
+             L 694 614 L 678 586
+             L 710 580 L 674 554
+             L 696 544 L 676 538
+             C 596 496, 506 506, 468 542
+             Z"
+          fill="#ffffff" stroke="#111111" stroke-width="6" stroke-linejoin="round"/>
+
+    <!-- nose wrinkles & snout side creases -->
+    <path d="M 442 518 Q 450 515 458 518" fill="none" stroke="#111111" stroke-width="4" stroke-linecap="round"/>
+    <path d="M 435 527 Q 450 523 465 527" fill="none" stroke="#111111" stroke-width="4.5" stroke-linecap="round"/>
+    <path d="M 428 542 C 414 550, 408 562, 412 574" fill="none" stroke="#111111" stroke-width="5" stroke-linecap="round"/>
+    <path d="M 472 542 C 486 550, 492 562, 488 574" fill="none" stroke="#111111" stroke-width="5" stroke-linecap="round"/>
+
+    <!-- mouth, buck teeth & upper-lip pads -->
+    <g id="mouth" transform="translate(450,582)">
+      <g id="mouth-open" opacity="1" transform="scale(1,0.94)">
+        <path d="M -96 -6 C -64 2, -32 6, 0 2 C 32 6, 64 2, 96 -6 C 76 58, 48 138, 0 138 C -48 138, -76 58, -96 -6 Z"
+              fill="#8e3727"/>
+        <g clip-path="url(#mouthClip)">
+          <path d="M -48 114 C -28 92, -6 94, 3 106 C 12 94, 30 92, 48 114 L 48 146 L -48 146 Z"
+                fill="#f08c79" stroke="#111111" stroke-width="5" stroke-linejoin="round"/>
+        </g>
+        <path d="M -96 -6 C -64 2, -32 6, 0 2 C 32 6, 64 2, 96 -6 C 76 58, 48 138, 0 138 C -48 138, -76 58, -96 -6 Z"
+              fill="none" stroke="#111111" stroke-width="6" stroke-linejoin="round"/>
+      </g>
+      <path id="mouth-smile" d="M -98 -6 C -60 12, -28 14, 0 2 C 28 14, 60 12, 98 -6"
+            stroke="#111111" stroke-width="6" fill="none" stroke-linecap="round" opacity="0"/>
+      <g id="teeth">
+        <path d="M -33 -4 L 0 0 L 0 58 C 0 65, -5 68, -15 68 C -26 68, -32 64, -33 55 Z"
+              fill="#ffffff" stroke="#111111" stroke-width="5.5" stroke-linejoin="round"/>
+        <path d="M 33 -4 L 0 0 L 0 58 C 0 65, 5 68, 15 68 C 26 68, 32 64, 33 55 Z"
+              fill="#ffffff" stroke="#111111" stroke-width="5.5" stroke-linejoin="round"/>
+      </g>
+      <g id="teeth-rest" opacity="0"></g>
+      <!-- upper-lip muzzle puffs & sweeping cheek smile lines -->
+      <path d="M -112 -8 L -112 -24 L 112 -24 L 112 -8 C 76 0, 48 2, 36 -5 C 26 5, 12 8, 0 0 C -12 8, -26 5, -36 -5 C -48 2, -76 0, -112 -8 Z"
+            fill="#ffffff"/>
+      <path d="M 0 -23 L 0 0" fill="none" stroke="#111111" stroke-width="5.5" stroke-linecap="round"/>
+      <path d="M 0 0 C -12 8, -26 5, -36 -6" fill="none" stroke="#111111" stroke-width="5.5" stroke-linecap="round"/>
+      <path d="M 0 0 C 12 8, 26 5, 36 -6" fill="none" stroke="#111111" stroke-width="5.5" stroke-linecap="round"/>
+      <path d="M -34 -3 C -76 -14, -124 -10, -166 8" fill="none" stroke="#111111" stroke-width="5.5" stroke-linecap="round"/>
+      <path d="M 34 -3 C 76 -14, 124 -10, 166 8" fill="none" stroke="#111111" stroke-width="5.5" stroke-linecap="round"/>
+      <path d="M -100 -14 C -95 -6, -92 2, -94 10" fill="none" stroke="#111111" stroke-width="5" stroke-linecap="round"/>
+      <path d="M 100 -14 C 95 -6, 92 2, 94 10" fill="none" stroke="#111111" stroke-width="5" stroke-linecap="round"/>
     </g>
 
     <!-- nose -->
-    <path d="M450 500 C 474 502 482 522 466 536 C 458 543 442 543 434 536 C 418 522 426 502 450 500 Z" fill="url(#noseGrad)"/>
+    <path d="M 430 540 C 436 534, 464 534, 470 540 C 472 547, 460 558, 450 559 C 440 558, 428 547, 430 540 Z"
+          fill="url(#noseGrad)" stroke="#111111" stroke-width="5" stroke-linejoin="round"/>
 
-    <!-- whisker dots -->
-    <g fill="#b9bec6">
-      <circle cx="330" cy="560" r="4"/><circle cx="322" cy="588" r="4"/><circle cx="332" cy="614" r="4"/>
-      <circle cx="570" cy="560" r="4"/><circle cx="578" cy="588" r="4"/><circle cx="568" cy="614" r="4"/>
-    </g>
-
-    <!-- mouth -->
-    <g id="mouth" transform="translate(450,632)">
-      <path id="mouth-smile" d="M-102 -6 Q 0 64 102 -6" stroke="#43352f" stroke-width="8" fill="none" stroke-linecap="round"/>
-      <g id="teeth-rest">
-        <rect x="-27" y="-30" width="25" height="34" rx="7" fill="#fdfdf8" stroke="#dcdcd2" stroke-width="2"/>
-        <rect x="2" y="-30" width="25" height="34" rx="7" fill="#fdfdf8" stroke="#dcdcd2" stroke-width="2"/>
-      </g>
-      <g id="mouth-open" opacity="0">
-        <ellipse cx="0" cy="18" rx="106" ry="80" fill="#4a1015"/>
-        <ellipse cx="0" cy="62" rx="56" ry="26" fill="#d45a66"/>
-        <g id="teeth">
-          <rect x="-36" y="-58" width="35" height="46" rx="9" fill="#fdfdf8" stroke="#dcdcd2" stroke-width="2"/>
-          <rect x="2" y="-58" width="35" height="46" rx="9" fill="#fdfdf8" stroke="#dcdcd2" stroke-width="2"/>
-        </g>
-      </g>
-    </g>
-
-    <!-- whiskers -->
-    <g stroke="#b9bec6" stroke-width="4" stroke-linecap="round">
-      <path d="M332 574 L296 566"/><path d="M330 596 L292 596"/><path d="M334 616 L298 626"/>
-      <path d="M568 574 L604 566"/><path d="M570 596 L608 596"/><path d="M566 616 L602 626"/>
+    <!-- long whiskers -->
+    <g fill="none" stroke="#111111" stroke-width="4.5" stroke-linecap="round">
+      <path d="M 358 552 C 272 536, 182 524, 92 516"/>
+      <path d="M 346 566 C 252 560, 158 562, 68 570"/>
+      <path d="M 358 578 C 272 580, 184 590, 96 606"/>
+      <path d="M 542 552 C 628 536, 718 524, 808 516"/>
+      <path d="M 554 566 C 648 560, 742 562, 832 570"/>
+      <path d="M 542 578 C 628 580, 716 590, 804 606"/>
     </g>
   </g>
 </svg>
