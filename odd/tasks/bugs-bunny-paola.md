@@ -30,13 +30,13 @@ manual browser checks (file:// and local server, 390x844 + 1440x900) + ffprobe a
 | ID | Spec | Route | Status | Evidence |
 |----|------|-------|--------|----------|
 | T0 | S1 | inline | done | repo + folders + this doc, commit `chore: scaffold` |
-| T1 | S2,S7 | inline | todo | tools/make_voice.py, make_music.py, make_envelopes.py; audio in assets/audio + samples |
-| T2 | S2 | inline | todo | inline SVG in index.html, scripts/bugs.js |
-| T3 | S2,S4 | inline | todo | scenes 1-2, confetti, lightstick ocean |
-| T4 | S3 | inline | todo | dorama scene + drama-theme |
-| T5 | S4,S5 | inline | todo | cake blow-out (mic + tap fallback), letter |
-| T6 | S6 | inline | todo | credits + references + iris-out "¡Eso es todo, Paola!" |
-| T7 | S7,S8 | inline | todo | REEMPLAZAR.md, README, full verification |
+| T1 | S2,S7 | inline | done | assets/audio/*.mp3 + envelopes.js (talk 11.05s, song 18.5s, theme 26.65s), samples/, commit `feat: audio pipeline` |
+| T2 | S2 | inline | done | inline SVG in index.html + scripts/bugs.js; teeth-rest + whiskers after visual pass |
+| T3 | S2,S4 | inline | done | s1/s2 scenes, confetti, ocean; mouth-sync verified mid-song (opacity/scale updates) |
+| T4 | S3 | inline | done | dorama cards with emoji art (umbrella/lock/snow + 🐰), ko/es captions, theme loop |
+| T5 | S4,S5 | inline | done | 5 candles tap-extinguish verified; mic+fallback; envelope opens with signature |
+| T6 | S6 | inline | done | credits + refs links + iris finale verified in browser |
+| T7 | S7,S8 | inline | done | REEMPLAZAR.md + README + commits; console sweep clean; mobile+desktop checked |
 
 ## Log
 
@@ -56,3 +56,9 @@ manual browser checks (file:// and local server, 390x844 + 1440x900) + ffprobe a
   for user-provided official audio/images instead.
 - L4 (2026-11-23, verbatim): "ok te voy a pasar los audios mas tarde ponlo por defecto uno y mas
   tarde lo cambiamos ok ?" → plan approved with this contract.
+- L5 (2026-11-23, verbatim): "ten en cuenta que lo subiremos a vercel no ?" → delivery target is
+  Vercel; README/REEMPLAZAR include deploy steps; https also unlocks the mic.
+- Analysis notes: es-MX-CecilioNeural returned empty audio (service-side), default voice is
+  es-MX-JorgeNeural pitched +20%; parallel TTS gets rate-limited → sequential with retry.
+  Visual pass fixed: Bugs hidden behind scene bg (z-index), missing closed-mouth teeth,
+  missing card emojis, lyric legibility plate.

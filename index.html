@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#d21f26">
+<title>¿Qué hay de nuevo, Paola? 🥕</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🥕</text></svg>">
+<link rel="stylesheet" href="styles/base.css">
+<link rel="stylesheet" href="styles/scenes.css">
+</head>
+<body>
+
+<!-- Bugs lives outside the scenes so he persists between s1 and s2 -->
+<svg id="bugs" viewBox="0 0 900 1150" aria-label="Bugs Bunny" role="img">
+  <defs>
+    <radialGradient id="furGrad" cx="42%" cy="36%" r="75%">
+      <stop offset="0%" stop-color="#aab1ba"/>
+      <stop offset="62%" stop-color="#9aa0a8"/>
+      <stop offset="100%" stop-color="#7d838c"/>
+    </radialGradient>
+    <radialGradient id="innerEarGrad" cx="50%" cy="30%" r="80%">
+      <stop offset="0%" stop-color="#f2b7c0"/>
+      <stop offset="100%" stop-color="#d98893"/>
+    </radialGradient>
+    <linearGradient id="carrotGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#f6924b"/>
+      <stop offset="55%" stop-color="#f2803b"/>
+      <stop offset="100%" stop-color="#d96a28"/>
+    </linearGradient>
+    <radialGradient id="noseGrad" cx="35%" cy="30%" r="80%">
+      <stop offset="0%" stop-color="#c9899a"/>
+      <stop offset="100%" stop-color="#a96b7d"/>
+    </radialGradient>
+  </defs>
+
+  <g id="bugs-root">
+    <!-- ears -->
+    <g id="ear-left" class="ear">
+      <g class="ear-inner">
+        <ellipse cx="0" cy="-40" rx="64" ry="205" fill="url(#furGrad)"/>
+        <ellipse cx="0" cy="-30" rx="37" ry="152" fill="url(#innerEarGrad)"/>
+      </g>
+    </g>
+    <g id="ear-right" class="ear">
+      <g class="ear-inner">
+        <ellipse cx="0" cy="-40" rx="64" ry="205" fill="url(#furGrad)"/>
+        <ellipse cx="0" cy="-30" rx="37" ry="152" fill="url(#innerEarGrad)"/>
+      </g>
+    </g>
+
+    <!-- body -->
+    <path d="M450 660 C 300 660 205 760 185 940 L 185 1150 L 715 1150 L 715 940 C 695 760 600 660 450 660 Z" fill="url(#furGrad)"/>
+    <ellipse cx="450" cy="880" rx="152" ry="150" fill="#f7f7f2"/>
+    <!-- left arm resting -->
+    <path d="M262 780 C 205 830 178 900 185 975 C 230 985 268 950 278 900 C 286 860 280 812 262 780 Z" fill="#8b919a"/>
+    <ellipse cx="228" cy="962" rx="46" ry="44" fill="#f7f7f2"/>
+    <path d="M196 946 h64 M198 966 h60" stroke="#c9cdd3" stroke-width="4"/>
+
+    <!-- right arm raised with carrot -->
+    <g id="carrot-arm">
+      <path d="M612 748 C 672 720 700 668 705 618 C 740 636 752 686 736 736 C 720 786 668 800 612 748 Z" fill="#8b919a"/>
+      <g id="carrot" transform="translate(700,545) rotate(22)">
+        <path d="M-16 -86 C 6 -96 30 -88 34 -70 L 12 96 C 8 118 -14 118 -20 96 L -40 -66 C -44 -86 -30 -92 -16 -86 Z" fill="url(#carrotGrad)"/>
+        <path d="M-30 -50 h52 M-24 -8 h42 M-19 34 h32" stroke="#c85a1f" stroke-width="5" stroke-linecap="round" opacity=".55"/>
+        <path d="M-6 -88 C -26 -122 -8 -138 4 -128 C 10 -144 34 -140 34 -120 C 48 -118 46 -96 30 -90 Z" fill="#3f9d4e"/>
+        <path d="M8 -92 C 2 -108 12 -118 22 -112" stroke="#2f7d3b" stroke-width="4" fill="none"/>
+      </g>
+      <ellipse cx="700" cy="600" rx="48" ry="46" fill="#f7f7f2"/>
+      <path d="M662 588 h76 M664 610 h72" stroke="#c9cdd3" stroke-width="4"/>
+    </g>
+
+    <!-- head -->
+    <ellipse cx="450" cy="470" rx="252" ry="228" fill="url(#furGrad)"/>
+    <circle cx="286" cy="556" r="98" fill="#9aa0a8"/>
+    <circle cx="614" cy="556" r="98" fill="#9aa0a8"/>
+
+    <!-- muzzle & chin -->
+    <ellipse cx="450" cy="588" rx="176" ry="140" fill="#f7f7f2"/>
+    <ellipse cx="450" cy="702" rx="92" ry="54" fill="#f7f7f2"/>
+
+    <!-- eyes -->
+    <g id="eyes">
+      <ellipse cx="385" cy="424" rx="60" ry="77" fill="#fbfbf7"/>
+      <ellipse cx="515" cy="424" rx="60" ry="77" fill="#fbfbf7"/>
+      <g id="pupils">
+        <circle cx="392" cy="438" r="15" fill="#1c1c22"/>
+        <circle cx="508" cy="438" r="15" fill="#1c1c22"/>
+        <circle cx="398" cy="431" r="4.5" fill="#fff"/>
+        <circle cx="514" cy="431" r="4.5" fill="#fff"/>
+      </g>
+      <ellipse class="eyelid" cx="385" cy="424" rx="60" ry="77" fill="#9aa0a8"/>
+      <ellipse class="eyelid" cx="515" cy="424" rx="60" ry="77" fill="#9aa0a8"/>
+      <path d="M330 328 Q 385 306 440 326" stroke="#7d838c" stroke-width="11" fill="none" stroke-linecap="round"/>
+      <path d="M460 326 Q 515 306 570 328" stroke="#7d838c" stroke-width="11" fill="none" stroke-linecap="round"/>
+    </g>
+
+    <!-- nose -->
+    <path d="M450 500 C 474 502 482 522 466 536 C 458 543 442 543 434 536 C 418 522 426 502 450 500 Z" fill="url(#noseGrad)"/>
+
+    <!-- whisker dots -->
+    <g fill="#b9bec6">
+      <circle cx="330" cy="560" r="4"/><circle cx="322" cy="588" r="4"/><circle cx="332" cy="614" r="4"/>
+      <circle cx="570" cy="560" r="4"/><circle cx="578" cy="588" r="4"/><circle cx="568" cy="614" r="4"/>
+    </g>
+
+    <!-- mouth -->
+    <g id="mouth" transform="translate(450,632)">
+      <path id="mouth-smile" d="M-102 -6 Q 0 64 102 -6" stroke="#43352f" stroke-width="8" fill="none" stroke-linecap="round"/>
+      <g id="teeth-rest">
+        <rect x="-27" y="-30" width="25" height="34" rx="7" fill="#fdfdf8" stroke="#dcdcd2" stroke-width="2"/>
+        <rect x="2" y="-30" width="25" height="34" rx="7" fill="#fdfdf8" stroke="#dcdcd2" stroke-width="2"/>
+      </g>
+      <g id="mouth-open" opacity="0">
+        <ellipse cx="0" cy="18" rx="106" ry="80" fill="#4a1015"/>
+        <ellipse cx="0" cy="62" rx="56" ry="26" fill="#d45a66"/>
+        <g id="teeth">
+          <rect x="-36" y="-58" width="35" height="46" rx="9" fill="#fdfdf8" stroke="#dcdcd2" stroke-width="2"/>
+          <rect x="2" y="-58" width="35" height="46" rx="9" fill="#fdfdf8" stroke="#dcdcd2" stroke-width="2"/>
+        </g>
+      </g>
+    </g>
+
+    <!-- whiskers -->
+    <g stroke="#b9bec6" stroke-width="4" stroke-linecap="round">
+      <path d="M332 574 L296 566"/><path d="M330 596 L292 596"/><path d="M334 616 L298 626"/>
+      <path d="M568 574 L604 566"/><path d="M570 596 L608 596"/><path d="M566 616 L602 626"/>
+    </g>
+  </g>
+</svg>
+
+<canvas id="confetti" aria-hidden="true"></canvas>
+
+<main id="stage">
+
+  <!-- S1 · portada -->
+  <section class="scene" id="s1" data-active>
+    <div class="rings" aria-hidden="true"></div>
+    <div class="cassiopeia" aria-hidden="true">
+      <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+      <em>Cassiopeia ♥</em>
+    </div>
+    <header class="s1-title">
+      <p class="kicker" id="s1-kicker">HOY ES EL DÍA · 23 · NOVIEMBRE</p>
+      <h1>¿Qué hay de nuevo,<br><span class="hl">PAOLA</span>?</h1>
+    </header>
+    <footer class="s1-cta">
+      <button id="start-btn" type="button">🥕 Toca a Bugs</button>
+      <p class="hint">sube el volumen 🎵</p>
+    </footer>
+  </section>
+
+  <!-- S2 · la canción -->
+  <section class="scene" id="s2">
+    <div class="ocean" id="ocean" aria-hidden="true"></div>
+    <div class="lyrics">
+      <p class="lyrics-ko" id="lyrics-ko"></p>
+      <p class="lyrics-es" id="lyrics-es"></p>
+    </div>
+    <button class="skip" id="skip-song" type="button">saltar ⏭</button>
+  </section>
+
+  <!-- S3 · el dorama -->
+  <section class="scene" id="s3">
+    <div class="night-sky" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    <header class="drama-head">
+      <p class="drama-ost">EPISODIO ESPECIAL · OST: «Rising Carrot»</p>
+      <h2>PAOLA <span>파올라</span></h2>
+    </header>
+    <div class="cards" id="cards">
+      <article class="card">
+        <div class="card-art rain-art"><span class="art-emoji">🌂</span><span class="art-buddy">🐰</span></div>
+        <p class="ko">비 오는 날에도 네 곁에</p>
+        <p class="es">«Llueva o truene, yo te cubro.»</p>
+      </article>
+      <article class="card">
+        <div class="card-art back-art"><span class="art-emoji">🤗</span><span class="art-buddy">🐰</span></div>
+        <p class="ko">힘들 때는 내가 업어줄게</p>
+        <p class="es">«Cuando estés cansada, sube: yo te cargo.»</p>
+      </article>
+      <article class="card">
+        <div class="card-art lock-art"><span class="art-emoji">🔒</span><span class="art-buddy">🐰</span></div>
+        <p class="ko">영원히 함께</p>
+        <p class="es">«Bugs ♥ Paola: candado echado.»</p>
+      </article>
+      <article class="card">
+        <div class="card-art snow-art"><span class="art-emoji">❄️</span><span class="art-buddy">🐰</span></div>
+        <p class="ko">첫눈처럼</p>
+        <p class="es">«Como la primera nieve: un deseo para ti.»</p>
+      </article>
+    </div>
+    <footer class="drama-foot">
+      <p class="swipe-hint">desliza las postales →</p>
+      <button class="next" id="to-cake" type="button">la torta 🎂</button>
+    </footer>
+  </section>
+
+  <!-- S4 · la torta -->
+  <section class="scene" id="s4">
+    <header class="s4-head">
+      <h2>Pide tu deseo, Paola</h2>
+      <p id="blow-status">Sopla las velitas 🎂 (o toca la llama)</p>
+    </header>
+    <div class="cake-wrap">
+      <div class="cake" id="cake">
+        <div class="candles" id="candles">
+          <div class="candle"><span class="flame"></span><i></i></div>
+          <div class="candle"><span class="flame"></span><i></i></div>
+          <div class="candle"><span class="flame"></span><i></i></div>
+          <div class="candle"><span class="flame"></span><i></i></div>
+          <div class="candle"><span class="flame"></span><i></i></div>
+        </div>
+        <div class="tier top"></div>
+        <div class="tier bottom"></div>
+        <div class="plate"></div>
+      </div>
+      <p class="five-candles">5 velitas · una por cada estrella de TVXQ ✦</p>
+    </div>
+    <footer class="s4-foot">
+      <button id="mic-btn" type="button">🎤 usar micrófono</button>
+      <button id="blow-btn" type="button">💨 soplar sin micro</button>
+      <button class="next hidden" id="to-letter" type="button">la carta 💌</button>
+    </footer>
+  </section>
+
+  <!-- S5 · la carta -->
+  <section class="scene" id="s5">
+    <div class="mail-scene" id="mail-scene">
+      <div class="envelope" id="envelope">
+        <div class="env-back"></div>
+        <div class="letter" id="letter">
+          <h3>Para Paola</h3>
+          <div id="letter-body"></div>
+          <p class="sign" id="letter-sign"></p>
+        </div>
+        <div class="env-front"></div>
+        <div class="env-flap" id="env-flap"><span class="seal">P</span></div>
+      </div>
+      <p class="mail-hint" id="mail-hint">toca el sobre 💌</p>
+    </div>
+    <button class="next hidden" id="to-final" type="button">el final ✨</button>
+  </section>
+
+  <!-- S6 · final -->
+  <section class="scene" id="s6">
+    <div class="credits" id="credits">
+      <h2 class="credits-title">PAOLA: UN CUMPLEAÑOS DE LOONEY TUNES</h2>
+      <p class="credits-sub">파올라의 생일 · 감독: 레안드로</p>
+      <dl id="credits-list"></dl>
+      <div class="refs" id="refs"></div>
+    </div>
+    <div class="thats-all" id="thats-all">
+      <div class="iris"></div>
+      <p>¡Eso es todo,<br><span>PAOLA</span>!</p>
+      <small>te quiere, Leandro (maldito) 🥕</small>
+    </div>
+    <button class="replay" id="replay" type="button">🔄 otra vez</button>
+  </section>
+
+</main>
+
+<script src="content.js"></script>
+<script src="assets/audio/envelopes.js"></script>
+<script src="scripts/audio.js"></script>
+<script src="scripts/bugs.js"></script>
+<script src="scripts/confetti.js"></script>
+<script src="scripts/scenes.js"></script>
+<script src="scripts/main.js"></script>
+</body>
+</html>
