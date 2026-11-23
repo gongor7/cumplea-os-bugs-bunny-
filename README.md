@@ -65,16 +65,34 @@ The site ships with fixed drop-in slots (`bugs-talk.mp3`, `bugs-song.mp3`,
 `drama-theme.mp3` in `assets/audio/`; images in `assets/img/`). Overwrite the
 file, no code changes. See `REEMPLAZAR.md` for the friendly walkthrough.
 
+## Deploy
+
+`tools/build_dist.py` assembles `dist/` — only the 16 files the page actually
+loads (1.3 MB), no tools, samples or docs. Drag that folder onto
+https://vercel.com/new, or run `npx vercel` from the repo root. The `https://`
+context also enables the microphone candle-blowing. Full steps in
+[`REEMPLAZAR.md`](REEMPLAZAR.md) (Spanish). Re-run `build_dist.py` after
+editing content or replacing audio.
+
 ## Verification performed
 
-- `ffprobe`: every mp3 present, expected duration, non-silent; envelope window
-  counts match audio durations (talk 11.05 s / song 18.5 s / theme 26.65 s).
-- Browser (390×844 mobile + 1440×900 desktop): all six scenes screenshotted and
-  inspected; console error sweep clean; full flow exercised — start → talk →
-  song (mouth opens with teeth/tongue, lightstick ocean lights, lyrics, confetti)
-  → drama cards → five candles extinguished by tap → letter opens with
-  signature → credits → iris finale "¡Eso es todo, PAOLA!" → replay.
-- Mic path requires a secure context (works on the Vercel URL); on `file://`
-  it falls back to tap/blow-button with a notice.
+- `ffprobe` + signal profile: every mp3 present, expected duration, zero
+  clipping; talk track is properly sequenced (16.2 s, no overlapping phrases);
+  the song bed ducks under each vocal line; envelope window counts match
+  durations; carrot-bite marks exported in `envelopes.js`.
+- Browser, scripted (`tools/preview.html` harness, headless Edge) at exact
+  390×844, 360×640 and 1440×900 layouts, every scene screenshotted and
+  AI-inspected: cover, mid-song (open mouth, captions on dark plate, lightstick
+  ocean, confetti), drama cards, cake (lit + blown out), closed + open letter
+  with signature, credits end-roll (references fit 390px), iris finale — all
+  PASS with nothing clipped; console error sweep clean; numeric overflow probe
+  reports only the intentional drama carousel.
+- Flow exercised end-to-end: start → talk → song → finale message → drama →
+  five candles extinguished → letter opened → credits → finale → replay.
+- Known environment notes: headless virtual time freezes CSS
+  transitions/animations, so the harness jumps them to end state (screenshots
+  only; real browsers animate normally). Mic path requires a secure context
+  (works on the Vercel URL); on `file://` it falls back to tap/blow-button
+  with a notice.
 
 Risk: none — static site, no data, no runtime dependencies.

@@ -43,18 +43,22 @@ button {
 #bugs {
   position: fixed;
   left: 50%; bottom: -2dvh;
-  transform: translateX(-50%);
-  height: 86dvh; width: auto;
+  transform: translateX(-50%) translateX(var(--shift, 0px));
+  /* cap by width too: on narrow phones 86dvh makes him wider than the screen
+     and the carrot arm gets cut — 122vw ≈ 96vw rendered width */
+  height: min(86dvh, 122vw); width: auto;
   z-index: 3; /* above scene backgrounds (z2), below lyrics/controls */
   pointer-events: none; /* never block buttons; s1 tap is handled on the scene */
-  filter: drop-shadow(0 18px 34px rgba(0,0,0,.45));
   transition: opacity .5s ease, transform .5s ease;
+  /* no CSS filter here on purpose: Bugs repaints every frame, and a filtered
+     element re-renders the whole filter each frame (janky on phones) */
 }
 body[data-scene="s3"] #bugs,
 body[data-scene="s4"] #bugs,
 body[data-scene="s5"] #bugs,
 body[data-scene="s6"] #bugs {
-  opacity: 0; transform: translateX(-50%) translateY(30dvh) scale(.7);
+  opacity: 0;
+  transform: translateX(-50%) translateX(var(--shift, 0px)) translateY(30dvh) scale(.7);
   pointer-events: none;
 }
 

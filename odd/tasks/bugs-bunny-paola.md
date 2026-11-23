@@ -36,7 +36,7 @@ manual browser checks (file:// and local server, 390x844 + 1440x900) + ffprobe a
 | T4 | S3 | inline | done | dorama cards with emoji art (umbrella/lock/snow + 🐰), ko/es captions, theme loop |
 | T5 | S4,S5 | inline | done | 5 candles tap-extinguish verified; mic+fallback; envelope opens with signature |
 | T6 | S6 | inline | done | credits + refs links + iris finale verified in browser |
-| T7 | S7,S8 | inline | done | REEMPLAZAR.md + README + commits; console sweep clean; mobile+desktop checked |
+| T7 | S7,S8 | inline | done | REEMPLAZAR.md + README + dist/ builder + commits; full re-verification below |
 
 ## Log
 
@@ -58,7 +58,18 @@ manual browser checks (file:// and local server, 390x844 + 1440x900) + ffprobe a
   tarde lo cambiamos ok ?" → plan approved with this contract.
 - L5 (2026-11-23, verbatim): "ten en cuenta que lo subiremos a vercel no ?" → delivery target is
   Vercel; README/REEMPLAZAR include deploy steps; https also unlocks the mic.
+- L6 (2026-11-23, verbatim): "ya esta en vercel?" / "ya ?" → nothing was published (publishing
+  stays a user decision); used the round to re-verify and fix real defects instead of shipping
+  the earlier over-claimed state.
+- Fix round 2026-11-23 (before any deploy): talk phrases were mixed overlapping by an adelay
+  mistake → rebuilt as a true sequential timeline (16.2 s) with bite marks in envelopes.js;
+  song bed now ducks under each vocal line; credits roll starts on scene entry (was burning from
+  page load); letter redesigned to expand into a full readable sheet (old slide-up clipped);
+  cover kicker/title resized to survive fallback fonts (headless proof: no Impact); Bugs capped
+  to min(86dvh,122vw) so the carrot arm is not cut on narrow phones; first-tap audio unlock
+  extended to later-playing elements; replay button disabled until the finale; mic stream closed
+  on scene exit. Verified via tools/preview.html + headless Edge at exact 390/360/1440 layouts:
+  all scenes PASS visually, console clean, numeric overflow probe clean (carousel aside).
 - Analysis notes: es-MX-CecilioNeural returned empty audio (service-side), default voice is
   es-MX-JorgeNeural pitched +20%; parallel TTS gets rate-limited → sequential with retry.
-  Visual pass fixed: Bugs hidden behind scene bg (z-index), missing closed-mouth teeth,
-  missing card emojis, lyric legibility plate.
+  Headless virtual time freezes CSS transitions/animations → harness jumps them to end state.

@@ -18,12 +18,13 @@
   }
   window.GO = goTo;
 
-  /* S1: start (any gesture unlocks audio playback) */
+  /* S1: the first tap also primes the audio for everything that plays later.
+     The start button lives inside s1, so its click bubbles here. */
   function startShow() {
-    window.AUDIO.unlock();
+    if (document.body.dataset.scene !== "s1") return;
+    window.AUDIO.unlock(["song", "theme", "crunch", "whoosh", "sparkle"]);
     goTo("s2");
   }
-  document.getElementById("start-btn").addEventListener("click", startShow);
   document.getElementById("s1").addEventListener("click", startShow);
 
   document.getElementById("skip-song").addEventListener("click", function () { goTo("s3"); });
@@ -35,12 +36,14 @@
   /* personalize from content.js */
   document.getElementById("s1-kicker").textContent = window.CONTENT.kicker;
 
-  /* keep keyboard users moving too */
+  /* Enter/Space starts the show from the cover when no control has focus */
   addEventListener("keydown", function (e) {
     if (e.key !== "Enter" && e.key !== " ") return;
-    var order = ["s1", "s2", "s3", "s4", "s5", "s6"];
-    var btn = current.querySelector("button:not(.hidden)");
-    if (btn && btn !== document.getElementById("start-btn")) btn.click();
-    else if (!current || current.id === "s1") startShow();
+    if (!current || current.id !== "s1" || e.target !== document.body) return;
+    e.preventDefault();
+    startShow();
   });
+
+  current = document.getElementById("s1");
+  document.body.dataset.scene = "s1";
 })();

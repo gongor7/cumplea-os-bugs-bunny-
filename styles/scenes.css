@@ -47,19 +47,22 @@
   z-index: -1;
 }
 .s1-title .kicker {
-  font-size: clamp(12px, 3.4vw, 16px);
-  letter-spacing: .35em; font-weight: 700;
+  font-size: clamp(10px, 2.9vw, 14px);
+  letter-spacing: .18em; font-weight: 700;
   color: #ffb3bb;
   text-shadow: 0 1px 3px rgba(0,0,0,.8);
+  text-wrap: balance;
 }
 .s1-title h1 {
   margin-top: 10px;
   font-family: Impact, "Arial Black", "Trebuchet MS", sans-serif;
-  font-size: clamp(38px, 11vw, 86px);
-  line-height: 1.02;
+  font-weight: 900; /* phones lack Impact: fall back to the boldest sans */
+  font-size: clamp(30px, 9vw, 86px);
+  line-height: 1.04;
   color: #f6e7cb;
   text-shadow: 0 4px 0 #7a1220, 0 10px 30px rgba(0,0,0,.5);
   letter-spacing: .01em;
+  text-wrap: balance;
 }
 .s1-title .hl { color: #ffdd55; }
 
@@ -86,6 +89,7 @@
 .lyrics-es {
   margin-top: 6px;
   font-family: Impact, "Arial Black", sans-serif;
+  font-weight: 900;
   font-size: clamp(24px, 7vw, 44px);
   color: #f6e7cb;
   text-shadow: 0 3px 0 #7a1220;
@@ -266,6 +270,7 @@
 }
 .s4-head h2 {
   font-family: Impact, "Arial Black", sans-serif;
+  font-weight: 900;
   font-size: clamp(28px, 8vw, 48px);
   color: #ffd76e;
   text-shadow: 0 4px 0 #7a1220;
@@ -370,12 +375,15 @@
   width: min(86vw, 360px);
   height: calc(min(86vw, 360px) * .68);
   cursor: pointer;
-  transition: transform .4s ease;
+  /* opening: the flap lifts first, then the envelope grows into the letter sheet */
+  transition: width .55s cubic-bezier(.2,.9,.3,1) .5s, height .55s cubic-bezier(.2,.9,.3,1) .5s;
 }
 .env-back {
   position: absolute; inset: 0;
   background: #8c2333;
   border-radius: 10px;
+  z-index: 1;
+  transition: opacity .35s ease .5s;
 }
 .letter {
   position: absolute; left: 5%; right: 5%; top: 6%; bottom: 10%;
@@ -383,8 +391,9 @@
   border-radius: 8px;
   padding: clamp(14px, 4vw, 26px);
   overflow: hidden;
-  transition: transform .8s cubic-bezier(.2, .9, .3, 1) .35s;
-  z-index: 1;
+  transition: left .55s cubic-bezier(.2,.9,.3,1) .5s, right .55s cubic-bezier(.2,.9,.3,1) .5s,
+              top .55s cubic-bezier(.2,.9,.3,1) .5s, bottom .55s cubic-bezier(.2,.9,.3,1) .5s;
+  z-index: 2; /* above the red back, below the front pocket and the flap */
   text-align: left;
   box-shadow: 0 8px 26px rgba(0,0,0,.35);
 }
@@ -409,6 +418,7 @@
   clip-path: polygon(0 18%, 50% 62%, 100% 18%, 100% 100%, 0 100%);
   border-radius: 10px;
   z-index: 3;
+  transition: opacity .35s ease .5s;
 }
 .env-flap {
   position: absolute; inset: 0;
@@ -417,6 +427,7 @@
   border-radius: 10px 10px 0 0;
   z-index: 4;
   transform-origin: top center;
+  backface-visibility: hidden;
   transition: transform .7s cubic-bezier(.6,0,.3,1);
   display: flex; align-items: flex-end; justify-content: center;
 }
@@ -428,10 +439,20 @@
   margin-bottom: 8%;
   box-shadow: 0 3px 8px rgba(0,0,0,.4);
 }
-.mail-scene.open .env-flap { transform: rotateX(178deg); z-index: 0; }
-.mail-scene.open .letter { transform: translateY(-78%) scale(1.06); z-index: 5; }
-.mail-scene.open .envelope { transform: translateY(-8%); }
-.mail-scene.open ~ .next { display: block; }
+.mail-scene.open .env-flap { transform: perspective(700px) rotateX(178deg); z-index: 0; }
+.mail-scene.open .envelope {
+  width: min(90vw, 520px);
+  height: min(70dvh, 640px);
+  cursor: default;
+}
+.mail-scene.open .env-back,
+.mail-scene.open .env-front { opacity: 0; }
+.mail-scene.open .letter {
+  left: 0; right: 0; top: 0; bottom: 0;
+  padding: clamp(20px, 6vw, 38px);
+  overflow-y: auto;
+}
+.mail-scene.open #letter-body { font-size: clamp(15px, 4.2vw, 18px); }
 .mail-scene.open .mail-hint { visibility: hidden; }
 
 /* ============ S6 · final ============ */
@@ -445,9 +466,10 @@
   position: absolute; inset: 0;
   display: flex; flex-direction: column; justify-content: center;
   text-align: center; gap: 8px;
-  animation: credits-roll 26s linear forwards;
   padding: 0 22px;
 }
+/* the roll starts when the scene is entered, not at page load */
+#s6[data-active] .credits { animation: credits-roll 26s linear forwards; }
 #s6.finale .credits { opacity: 0; transition: opacity .8s ease; }
 @keyframes credits-roll {
   from { transform: translateY(64%); }
@@ -455,6 +477,7 @@
 }
 .credits-title {
   font-family: Impact, "Arial Black", sans-serif;
+  font-weight: 900;
   font-size: clamp(22px, 6.4vw, 40px);
   color: #ffdd55; letter-spacing: .04em;
 }
@@ -472,7 +495,7 @@
   color: #f6e7cb;
 }
 .refs { margin-top: 26px; display: flex; flex-direction: column; gap: 6px; }
-.refs-title { font-size: 12px; letter-spacing: .26em; color: #9a8f83; text-transform: uppercase; }
+.refs-title { font-size: 12px; letter-spacing: .12em; color: #9a8f83; text-transform: uppercase; }
 .refs a {
   color: #7fa7ff; font-size: clamp(13px, 3.6vw, 16px);
   text-decoration: underline dotted;
@@ -497,6 +520,7 @@
 .thats-all p {
   position: relative;
   font-family: Impact, "Arial Black", sans-serif;
+  font-weight: 900;
   font-size: clamp(40px, 12vw, 88px);
   color: #f6e7cb;
   text-shadow: 0 5px 0 #7a1220, 0 12px 34px rgba(0,0,0,.6);
@@ -519,6 +543,19 @@
   transition: opacity .5s ease 2.4s;
 }
 #s6.finale .replay { opacity: 1; pointer-events: auto; }
+
+/* ============ wide screens: Bugs steps right, the title owns the left ============ */
+@media (min-width: 1100px) {
+  #bugs { --shift: 14vw; height: min(88dvh, 50vw); }
+  #s1 { justify-content: center; gap: 7dvh; }
+  .s1-title { align-self: flex-start; margin: 0 0 0 8vw; text-align: left; }
+  .s1-title::before { inset: -24px -30px -20px -30px; }
+  .s1-title h1 { font-size: clamp(56px, 6.4vw, 104px); }
+  .s1-cta { align-self: flex-start; margin-left: 8vw; align-items: flex-start; }
+  #s2 { justify-content: flex-end; padding-bottom: 10dvh; }
+  .lyrics { align-self: flex-start; margin-left: 8vw; text-align: left; background: none; }
+  .lyrics-es { font-size: clamp(32px, 3.6vw, 58px); }
+}
 
 /* ============ reduced motion ============ */
 @media (prefers-reduced-motion: reduce) {

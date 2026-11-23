@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>preview harness</title>
+<style>
+  html, body { margin: 0; height: 100%; background: #000; overflow: hidden; }
+  iframe { display: block; border: 0; width: 100vw; height: 100vh; }
+  #state { position: fixed; top: 0; left: 0; z-index: 999; background: #000;
+           color: #0f0; font: bold 11px monospace; padding: 2px 6px; }
+</style>
+</head>
+<body>
+<!-- Screenshot harness: loads the site in a full-size frame and jumps to a scene.
+     ?scene=s1..s6&act=candles|letter|finale|song   (never shipped in dist/) -->
+<iframe id="f" src="../index.html"></iframe>
+<div id="state">pending</div>
+<script>
+  var q = new URLSearchParams(location.search);
+  var f = document.getElementById("f");
+  // Explicit pixel size: headless window sizing can differ from the requested
+  // viewport, which would lay the site out at the wrong width.
+  f.style.width = (q.get("w") || 390) + "px";
+  f.style.height = (q.get("h") || 844) + "px";
+  f.addEventListener("load", function () {
+    var w = f.contentWindow, d = w.document;
+    // Headless virtual time freezes CSS transitions AND animations at their
+    // start value; jump everything to its end state for state screenshots.
+    var st = d.createElement("style");
+    st.textContent = "*{transition:none!important;animation-duration:.01s!important;animation-delay:0s!important}";
+    d.head.appendChild(st);
+    setTimeout(function () {
+      if (q.get("scene")) w.GO(q.get("scene"));
+      setTimeout(function () {
+        var act = q.get("act");
+        if (act === "candles") {
+          d.querySelectorAll("#candles .candle").forEach(function (c) { c.click(); });
+        }
+        if (act === "letter") d.getElementById("envelope").click();
+        if (act === "finale") d.getElementById("s6").classList.add("finale");
+        if (act === "credits") { // frame the references block deterministically
+          var cr = d.querySelector(".credits");
+          cr.style.animation = "none";
+          cr.style.transform = "translateY(-52%)";
+        }
+        if (act === "song") { // mid-song visuals without needing audio playback
+          d.getElementById("lyrics-ko").textContent = "생일 축하해, 파올라";
+          d.getElementById("lyrics-es").textContent = "Cumpleaños feliz…";
+          d.getElementById("ocean").classList.add("on");
+          w.BUGS.setMouth(0.85);
+          w.CONFETTI.rain();
+          w.CONFETTI.burst(innerWidth * 0.25, innerHeight * 0.3);
+        }
+        var doc = w.document;
+        var over = [];
+        doc.querySelectorAll("body *").forEach(function (el) {
+          var r = el.getBoundingClientRect();
+          if (r.width && (r.right > w.innerWidth + 1 || r.left < -1)) {
+            over.push((el.id || el.className || el.tagName) + "@" + Math.round(r.left) + ".." + Math.round(r.right));
+          }
+        });
+        var stage = doc.getElementById("stage");
+        var s1 = doc.getElementById("s1");
+        document.title = "harness:" + w.document.body.dataset.scene +
+          ":iw" + w.innerWidth +
+          ":body" + doc.body.getBoundingClientRect().width +
+          ":stage" + (stage ? Math.round(stage.getBoundingClientRect().width) : "-") +
+          ":s1" + (s1 ? Math.round(s1.getBoundingClientRect().width) : "-") +
+          ":sw" + doc.documentElement.scrollWidth +
+          (over.length ? ":OVER[" + over.slice(0, 3).join("|") + "]" : ":clean");
+        document.getElementById("state").textContent = document.title;
+      }, 500);
+    }, 300);
+  });
+</script>
+</body>
+</html>

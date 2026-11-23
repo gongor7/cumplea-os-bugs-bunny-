@@ -35,15 +35,22 @@ letras). Ábrelo con el Bloc de notas, cambia lo que quieras y guarda.
 
 ## Subirla a Vercel 🚀
 
+Antes genera la carpeta lista para subir (una sola vez, yo ya lo hice):
+
+> En `bugs bunny` hay una terminal; ejecuta:
+> `.venv\Scripts\python.exe tools\build_dist.py`
+> (o pídeme que la regenere). Eso crea la carpeta `dist/` con solo los 16
+> archivos que la página usa (~1.3 MB).
+
 **Opción A — arrastrar (la más fácil):**
 1. Entra a https://vercel.com/new (con cuenta gratuita, se puede entrar con GitHub).
-2. Arrastra la carpeta completa `bugs bunny` a la página.
-3. Le das un nombre bonito al proyecto (por ejemplo `paola-birthday`) y **Deploy**.
+2. Arrastra la carpeta **`dist`** (la de adentro, no `bugs bunny` completa).
+3. Nombra el proyecto (por ejemplo `paola-birthday`) y **Deploy**.
 4. Te da un link `https://paola-birthday.vercel.app` → ese le mandas a Paola.
 
 **Opción B — desde la terminal:**
 ```
-cd "C:\Users\LEANDRO\Documents\Trabajo\Nueva carpeta\bugs bunny"
+cd "C:\Users\LEANDRO\Documents\Trabajo\Nueva carpeta\bugs bunny\dist"
 npx vercel
 ```
 La primera vez te pide iniciar sesión; después acepta todo con Enter y al final
@@ -52,6 +59,9 @@ te imprime el link.
 > Importante: el micrófono para soplar las velitas solo funciona con el link de
 > Vercel (https), no abriendo el archivo con doble clic. Ahí cae al respaldo de
 > tocar las llamas.
+
+> Si después cambias textos o audios: regenera `dist/` y en Vercel vuelve a
+> arrastrar (o `npx vercel --prod`).
 
 ## Escuchar las muestras de voz 🎧
 

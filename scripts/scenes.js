@@ -3,9 +3,12 @@
   "use strict";
 
   var C = window.CONTENT;
-  var HOOKS = {}; // id -> {enter, exit}
+  var HOOKS = {}; // scene id -> { enter, exit }
 
   function $(id) { return document.getElementById(id); }
+  function reducedMotion() {
+    return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  }
 
   /* ---------------- S2: talk + song + mouth sync + lightsticks --------- */
   (function buildOcean() {
@@ -19,21 +22,37 @@
   })();
 
   var mouthRAF = null;
-  var songTimers = [];
-  function clearTimers() { songTimers.forEach(clearTimeout); songTimers = []; }
+  var cancels = []; // tear-down for everything the song scene schedules
+
+  function schedule(fn, ms) {
+    var id = setTimeout(fn, ms);
+    cancels.push(function () { clearTimeout(id); });
+  }
+  function every(fn, ms) {
+    var id = setInterval(fn, ms);
+    cancels.push(function () { clearInterval(id); });
+  }
+  function clearTimers() {
+    cancels.forEach(function (cancel) { cancel(); });
+    cancels = [];
+  }
 
   function driveMouth(id) {
-    if (mouthRAF) cancelAnimationFrame(mouthRAF);
-    var started = performance.now();
+    stopMouth();
+    var bites = window.AUDIO.biteMarks(id);
+    var bit = [];
     (function loop() {
-      var t = (performance.now() - started) / 1000;
       window.BUGS.setMouth(window.AUDIO.level(id));
-      if (id === "talk") { // carrot bites land on the embedded crunches
-        if (t > 1.62 && t < 1.7) window.BUGS._b1 || ((window.BUGS._b1 = 1), window.BUGS.bite());
-        if (t > 6.45 && t < 6.55) window.BUGS._b2 || ((window.BUGS._b2 = 1), window.BUGS.bite());
+      var t = window.AUDIO.els[id].currentTime;
+      for (var i = 0; i < bites.length; i++) {
+        if (!bit[i] && t >= bites[i]) { bit[i] = true; window.BUGS.bite(); }
       }
       mouthRAF = requestAnimationFrame(loop);
     })();
+  }
+  function stopMouth() {
+    if (mouthRAF) cancelAnimationFrame(mouthRAF);
+    mouthRAF = null;
   }
 
   function showLyric(i) {
@@ -46,54 +65,70 @@
 
   HOOKS.s2 = {
     enter: function () {
-      window.BUGS._b1 = 0; window.BUGS._b2 = 0;
       $("lyrics-es").textContent = "";
       $("lyrics-ko").textContent = "";
       driveMouth("talk");
       window.BUGS.wiggleEars();
-      window.AUDIO.play("talk", 1).then(function () {
+      window.AUDIO.play("talk").then(function () {
         var talk = window.AUDIO.els.talk;
         talk.addEventListener("ended", function onTalkEnd() {
           talk.removeEventListener("ended", onTalkEnd);
-          cancelAnimationFrame(mouthRAF);
-          songTimers.push(setTimeout(startSong, 450));
+          stopMouth();
+          window.BUGS.setMouth(0);
+          schedule(startSong, 450);
         });
-      }).catch(function () { startSong(); });
+      }).catch(function () { schedule(startSong, 600); });
     },
     exit: function () {
       clearTimers();
-      if (mouthRAF) cancelAnimationFrame(mouthRAF);
+      stopMouth();
       window.BUGS.setMouth(0);
       window.AUDIO.stopAll();
       $("ocean").classList.remove("on");
+      $("s2").removeEventListener("click", tapToSing);
     },
   };
 
   function startSong() {
-    driveMouth("song");
-    $("ocean").classList.add("on");
-    C.lyrics.forEach(function (L, i) {
-      songTimers.push(setTimeout(function () {
-        showLyric(i);
-        window.BUGS.wiggleEars();
-        window.CONFETTI.burst(innerWidth * (0.2 + 0.15 * i), innerHeight * 0.32);
-      }, L.at * 1000));
-    });
-    var rain = setInterval(function () { window.CONFETTI.rain(); }, 700);
-    songTimers.push(rain);
-    window.AUDIO.play("song", 1).then(function () {
+    if (document.body.dataset.scene !== "s2") return;
+    window.AUDIO.play("song").then(function () {
+      driveMouth("song");
+      $("ocean").classList.add("on");
+      C.lyrics.forEach(function (L, i) {
+        schedule(function () {
+          showLyric(i);
+          window.BUGS.wiggleEars();
+          window.CONFETTI.burst(innerWidth * (0.2 + 0.15 * i), innerHeight * 0.32);
+        }, L.at * 1000);
+      });
+      every(function () { window.CONFETTI.rain(); }, 700);
       var song = window.AUDIO.els.song;
       song.addEventListener("ended", function onEnd() {
         song.removeEventListener("ended", onEnd);
-        clearInterval(rain);
-        cancelAnimationFrame(mouthRAF);
-        window.BUGS.setMouth(0);
-        $("lyrics-ko").textContent = "🎉";
-        $("lyrics-es").textContent = "¡FELICIDADES, " + C.name.toUpperCase() + "!";
-        window.CONFETTI.bigFinale();
-        songTimers.push(setTimeout(function () { window.GO("s3"); }, 1900));
+        finishSong();
       });
-    }).catch(function () { window.GO("s3"); });
+    }, function () {
+      // Playback was refused (no gesture reached this element): offer a tap.
+      $("lyrics-ko").textContent = "🎶";
+      $("lyrics-es").textContent = "Toca para cantar";
+      $("s2").addEventListener("click", tapToSing);
+    });
+  }
+
+  function tapToSing() {
+    if (document.body.dataset.scene !== "s2") return;
+    $("s2").removeEventListener("click", tapToSing);
+    startSong();
+  }
+
+  function finishSong() {
+    clearTimers();
+    stopMouth();
+    window.BUGS.setMouth(0);
+    $("lyrics-ko").textContent = "🎉";
+    $("lyrics-es").textContent = "¡FELICIDADES, " + C.name.toUpperCase() + "!";
+    window.CONFETTI.bigFinale();
+    schedule(function () { window.GO("s3"); }, 1900);
   }
 
   /* ---------------- S3: drama ------------------------------------------ */
@@ -101,25 +136,44 @@
     enter: function () { window.AUDIO.themeStart(); },
     exit: function () { window.AUDIO.themeStop(); },
   };
+  // Theme autoplay may be refused on some phones: any tap retries it.
+  $("s3").addEventListener("pointerdown", function () { window.AUDIO.themeStart(); });
 
   /* ---------------- S4: cake ------------------------------------------- */
   (function buildCake() {
-    var flames = Array.prototype.slice.call(document.querySelectorAll("#candles .candle"));
-    var out = 0, total = flames.length, blowProg = 0, micData = null, rafId = null;
+    var candles = Array.prototype.slice.call(document.querySelectorAll("#candles .candle"));
+    var total = candles.length;
+    var out = 0, blowProg = 0, mic = null, holdRAF = null;
     var status = $("blow-status");
+
+    candles.forEach(function (c, i) { c.dataset.i = i; });
+
+    function stopMic() {
+      if (!mic) return;
+      cancelAnimationFrame(mic.raf);
+      mic.stream.getTracks().forEach(function (t) { t.stop(); });
+      mic.actx.close();
+      mic = null;
+    }
+
+    function micUnavailable() {
+      status.textContent = "Sin micro aquí: toca las llamas o mantén \"soplar\" 💨";
+      $("mic-btn").classList.add("hidden");
+    }
 
     function extinguish(candle) {
       if (candle.dataset.out) return;
       candle.dataset.out = "1";
       candle.querySelector(".flame").classList.add("off");
       window.AUDIO.play("whoosh", 0.55);
-      window.CONFETTI.burst(
-        (candle.getBoundingClientRect().left + 14), candle.getBoundingClientRect().top);
+      var r = candle.getBoundingClientRect();
+      window.CONFETTI.burst(r.left + r.width / 2, r.top);
       out++;
       if (out >= total) allOut();
     }
 
     function allOut() {
+      stopMic();
       status.textContent = "✨ ¡Deseo concedido, " + C.name + "! ✨";
       window.AUDIO.play("sparkle", 0.8);
       window.CONFETTI.bigFinale();
@@ -128,78 +182,76 @@
       setTimeout(function () { $("to-letter").classList.remove("hidden"); }, 900);
     }
 
-    flames.forEach(function (c) {
+    candles.forEach(function (c) {
       c.addEventListener("click", function () { extinguish(c); });
     });
 
-    /* tap-and-hold fallback blower */
-    var holdRAF = null;
+    /* Press-and-hold "soplar": each fifth of the hold puts out one more candle. */
     function holdStep() {
-      blowProg += 0.022;
-      updateStatus();
-      flames.forEach(function (c) {
-        var th = parseFloat(c.dataset.i || 0) + 1;
-        if (blowProg >= th * 0.2) extinguish(c);
+      blowProg = Math.min(1.05, blowProg + 0.022);
+      candles.forEach(function (c) {
+        if (blowProg >= (Number(c.dataset.i) + 1) * 0.2) extinguish(c);
       });
       if (out < total) holdRAF = requestAnimationFrame(holdStep);
     }
     $("blow-btn").addEventListener("pointerdown", function () {
-      holdStep();
+      if (out >= total || holdRAF) return;
+      holdRAF = requestAnimationFrame(holdStep);
     });
-    addEventListener("pointerup", function () {
+    function endHold() {
       if (holdRAF) cancelAnimationFrame(holdRAF);
       holdRAF = null;
-    });
+    }
+    addEventListener("pointerup", endHold);
+    addEventListener("pointercancel", endHold);
 
     function updateStatus() {
-      if (micData) {
-        status.textContent = "Sopla al micro 🎤 " + "▮".repeat(Math.min(10, Math.round(blowProg * 10)));
-      }
+      status.textContent = "Sopla al micro 🎤 " + "▮".repeat(Math.min(10, Math.round(blowProg * 10)));
     }
 
     $("mic-btn").addEventListener("click", function () {
-      if (micData) return;
+      if (mic) return;
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        micUnavailable();
+        return;
+      }
       navigator.mediaDevices.getUserMedia({ audio: true }).then(function (stream) {
-        var actx = new (window.AudioContext || window.webkitAudioContext)();
-        var src = actx.createMediaStreamSource(stream);
+        var AudioCtx = window.AudioContext || window.webkitAudioContext;
+        var actx = new AudioCtx();
         var an = actx.createAnalyser();
         an.fftSize = 512;
-        src.connect(an);
-        micData = { an: an, actx: actx, buf: new Uint8Array(an.frequencyBinCount) };
+        actx.createMediaStreamSource(stream).connect(an);
+        actx.resume();
+        mic = { stream: stream, actx: actx, an: an, buf: new Uint8Array(an.frequencyBinCount), raf: 0 };
         status.textContent = "Sopla al micro 🎤";
-        flames.forEach(function (c, i) { c.dataset.i = i; });
         (function listen() {
-          micData.an.getByteFrequencyData(micData.buf);
-          var low = 0, n = 14; // first bins ≈ low breath rumble
-          for (var i = 2; i < 2 + n; i++) low += micData.buf[i];
-          low /= n * 255;
+          mic.an.getByteFrequencyData(mic.buf);
+          var low = 0;
+          for (var i = 2; i < 16; i++) low += mic.buf[i]; // low breath rumble bins
+          low /= 14 * 255;
           if (low > 0.16) {
-            blowProg += 0.024;
-            flames.forEach(function (c) {
-              var th = parseFloat(c.dataset.i || 0) + 1;
-              if (blowProg >= th * 0.19) extinguish(c);
+            blowProg = Math.min(1.05, blowProg + 0.024);
+            candles.forEach(function (c) {
+              if (blowProg >= (Number(c.dataset.i) + 1) * 0.19) extinguish(c);
             });
             updateStatus();
           } else {
             blowProg = Math.max(0, blowProg - 0.004);
           }
-          rafId = requestAnimationFrame(listen);
+          if (mic) mic.raf = requestAnimationFrame(listen);
         })();
-      }).catch(function () {
-        status.textContent = "Sin micro aquí — toca las llamas o mantén \"soplar\" 💨";
-        $("mic-btn").classList.add("hidden");
-      });
+      }).catch(micUnavailable);
     });
+
+    HOOKS.s4 = { exit: stopMic };
   })();
 
   /* ---------------- S5: letter ----------------------------------------- */
   (function buildLetter() {
     $("letter-body").textContent = C.letter;
     $("letter-sign").textContent = C.signature;
-    var opened = false;
     $("envelope").addEventListener("click", function () {
-      if (opened) return;
-      opened = true;
+      if ($("mail-scene").classList.contains("open")) return;
       $("mail-scene").classList.add("open");
       window.AUDIO.play("sparkle", 0.7);
       setTimeout(function () { $("to-final").classList.remove("hidden"); }, 1100);
@@ -225,16 +277,19 @@
       refs.appendChild(a);
     });
 
+    function showFinale() {
+      $("s6").classList.add("finale");
+      $("replay").disabled = false;
+      if (!reducedMotion()) window.CONFETTI.bigFinale();
+      window.AUDIO.play("sparkle", 0.5);
+    }
+
     HOOKS.s6 = {
-      enter: function () {
-        var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-        setTimeout(function () {
-          $("s6").classList.add("finale");
-          if (!reduced) window.CONFETTI.bigFinale();
-          window.AUDIO.play("sparkle", 0.5);
-        }, reduced ? 1500 : 13000);
+      enter: function () { setTimeout(showFinale, reducedMotion() ? 1500 : 13000); },
+      exit: function () {
+        $("s6").classList.remove("finale");
+        $("replay").disabled = true;
       },
-      exit: function () { $("s6").classList.remove("finale"); },
     };
   })();
 
