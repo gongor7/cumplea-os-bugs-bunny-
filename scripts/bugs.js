@@ -23,11 +23,13 @@
   function setMouth(o) {
     state.mouth = Math.max(0, Math.min(1, o));
     var open = state.mouth;
-    var sy = open === 0 ? 0.94 : (0.28 + 0.80 * open);
+    var sy = open === 0 ? 0.94 : (0.26 + 0.80 * open);
     var closed = (open > 0 && open <= 0.08) ? "1" : "0";
-    mouthOpen.setAttribute("opacity", closed === "1" ? "0" : "1");
+    var openOp = closed === "1" ? "0" : "1";
+    mouthOpen.setAttribute("opacity", openOp);
     mouthOpen.setAttribute("transform", "scale(1," + sy.toFixed(3) + ")");
     mouthSmile.setAttribute("opacity", closed);
+    teeth.setAttribute("opacity", openOp);
     teethRest.setAttribute("opacity", closed);
     var ty = open === 0 ? 0 : (-2 + open * 4);
     teeth.setAttribute("transform", "translate(0," + ty.toFixed(1) + ")");

@@ -41,8 +41,11 @@
     stopMouth();
     var bites = window.AUDIO.biteMarks(id);
     var bit = [];
+    var smooth = 0;
     (function loop() {
-      window.BUGS.setMouth(window.AUDIO.level(id));
+      var target = window.AUDIO.level(id);
+      smooth += (target - smooth) * 0.45;
+      window.BUGS.setMouth(smooth < 0.02 ? 0.01 : smooth);
       var t = window.AUDIO.els[id].currentTime;
       for (var i = 0; i < bites.length; i++) {
         if (!bit[i] && t >= bites[i]) { bit[i] = true; window.BUGS.bite(); }
@@ -131,10 +134,9 @@
     schedule(function () { window.GO("s3"); }, 1900);
   }
 
-  /* ---------------- S3: drama ------------------------------------------ */
+  /* ---------------- S3: drama (music continues through s4–s6) ---------- */
   HOOKS.s3 = {
     enter: function () { window.AUDIO.themeStart(); },
-    exit: function () { window.AUDIO.themeStop(); },
   };
   // Theme autoplay may be refused on some phones: any tap retries it.
   $("s3").addEventListener("pointerdown", function () { window.AUDIO.themeStart(); });
@@ -154,6 +156,7 @@
       mic.stream.getTracks().forEach(function (t) { t.stop(); });
       mic.actx.close();
       mic = null;
+      window.AUDIO.els.theme.volume = 0.42;
     }
 
     function micUnavailable() {
@@ -216,6 +219,7 @@
         return;
       }
       navigator.mediaDevices.getUserMedia({ audio: true }).then(function (stream) {
+        window.AUDIO.els.theme.volume = 0.12; // duck background music while listening to blow
         var AudioCtx = window.AudioContext || window.webkitAudioContext;
         var actx = new AudioCtx();
         var an = actx.createAnalyser();
@@ -277,16 +281,19 @@
       refs.appendChild(a);
     });
 
+    var finaleTimer = null;
     function showFinale() {
       $("s6").classList.add("finale");
       $("replay").disabled = false;
       if (!reducedMotion()) window.CONFETTI.bigFinale();
-      window.AUDIO.play("sparkle", 0.5);
+      window.AUDIO.themeStop();
+      window.AUDIO.play("finale", 1.0);
     }
 
     HOOKS.s6 = {
-      enter: function () { setTimeout(showFinale, reducedMotion() ? 1500 : 13000); },
+      enter: function () { finaleTimer = setTimeout(showFinale, reducedMotion() ? 1500 : 13000); },
       exit: function () {
+        if (finaleTimer) { clearTimeout(finaleTimer); finaleTimer = null; }
         $("s6").classList.remove("finale");
         $("replay").disabled = true;
       },

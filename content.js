@@ -12,24 +12,23 @@ window.CONTENT = {
 
   /* Frase de la canción (español + coreano), sincronizada con la música */
   lyrics: [
-    { ko: "생일 축하해, 파올라", es: "Cumpleaños feliz…",            at: 0.4 },
-    { ko: "오늘이야!",           es: "…cumpleaños feliz.",           at: 4.3 },
-    { ko: "파이팅!",             es: "te deseamos, Paola…",          at: 8.2 },
-    { ko: "사랑해 🥕",           es: "¡cumpleaños feliz!",           at: 12.6 },
+    { ko: "생일 축하해, 파올라", es: "Cumpleaños feliz…",            at: 1.05 },
+    { ko: "오늘이야!",           es: "…cumpleaños feliz.",           at: 3.49 },
+    { ko: "파이팅!",             es: "te deseamos, Paola…",          at: 5.93 },
+    { ko: "사랑해 🥕",           es: "¡cumpleaños feliz!",           at: 8.72 },
   ],
 
   /* La carta (usa \n para saltos de línea) */
   letter: [
-    "Paola:",
-    "Hoy el multiverso entero se pone de acuerdo en una sola cosa:",
-    "que el mundo es mejor contigo dentro.",
-    "Que Bugs te cante, que el dorama te abrace y que Cassiopeia",
-    "te guarde los cinco deseos que pediste al soplar.",
-    "Feliz cumpleaños. Nos vemos en el próximo capítulo. 🥕✦"
-  ].join("\n"),
+    "Querida Paola:",
+    "En este día tan especial quiero desearte el mejor de los cumpleaños. Que Diosito siempre te ilumine y te lleve a lugares bonitos.",
+    "Me gusta escuchar o ver noticias de ti y ver que estás triunfando; eso me llena y me pone muy orgulloso. Sé que tienes más sueños y quiero que sepas que los vas a cumplir. Aunque a veces la vida se ponga difícil, tú sabes salir adelante y día a día has demostrado que eres mucho más fuerte de lo que crees.",
+    "Y ya sabes: con zapatos bonitos (nuevos tenis de monitos) vas a llegar tan lejos como te propongas. Por favor, nunca te olvides de ser feliz, que nunca te falten motivos para sonreír ni personas que te celebren como te lo mereces.",
+    "Te deseo todo lo mejor, maldita. Aquí siempre voy a estar celebrando cada paso que des."
+  ].join("\n\n"),
 
   /* Firma */
-  signature: "— Leandro (maldito)",
+  signature: "Te quiere,\nLeandro (maldito)",
 
   /* Créditos del final (cargo, nombre) */
   credits: [

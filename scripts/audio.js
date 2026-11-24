@@ -11,6 +11,7 @@
     crunch: "assets/audio/crunch.mp3",
     whoosh: "assets/audio/whoosh.mp3",
     sparkle: "assets/audio/sparkle.mp3",
+    finale: "assets/audio/thats-all.mp3",
   };
   var ENVELOPE_KEY = { talk: "bugs-talk", song: "bugs-song" };
 

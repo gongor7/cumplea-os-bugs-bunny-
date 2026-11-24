@@ -22,7 +22,7 @@
      The start button lives inside s1, so its click bubbles here. */
   function startShow() {
     if (document.body.dataset.scene !== "s1") return;
-    window.AUDIO.unlock(["song", "theme", "crunch", "whoosh", "sparkle"]);
+    window.AUDIO.unlock(["song", "theme", "crunch", "whoosh", "sparkle", "finale"]);
     goTo("s2");
   }
   document.getElementById("s1").addEventListener("click", startShow);
